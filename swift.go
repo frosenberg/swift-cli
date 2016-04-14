@@ -3,12 +3,13 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/ncw/swift"
-	"github.com/spf13/cobra"
 	"io"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/ncw/swift"
+	"github.com/spf13/cobra"
 )
 
 var (
@@ -249,18 +250,17 @@ func debugf(fmt string, v ...interface{}) {
 
 func connect() *swift.Connection {
 	c := swift.Connection{
-		// This should be your username
-		UserName: os.Getenv("ST_USER"),
-		// This should be your api key
-		ApiKey: os.Getenv("ST_KEY"),
-		// This should be a v1 auth url
-		AuthUrl: os.Getenv("ST_AUTH"),
+		UserName: os.Getenv("OS_USERNAME"),
+		ApiKey:   os.Getenv("OS_PASSWORD"),
+		AuthUrl:  os.Getenv("OS_AUTH_URL"),
+		Domain:   os.Getenv("OS_PROJECT_DOMAIN_NAME"),
+		Region:   os.Getenv("OS_REGION_NAME"),
 	}
 
 	// Authenticate
 	err := c.Authenticate()
 	if err != nil {
-		fmt.Println("Ensure ST_USER, ST_KEY, and ST_AUTH are set")
+		fmt.Println("Ensure OS_AUTH_URL, OS_USERNAME, OS_PASSWORD, OS_PROJECT_DOMAIN_NAME and OS_REGION_NAME are set")
 		panic(err)
 	}
 	return &c
